@@ -4,7 +4,7 @@ import './Resources/css/app.css'
 
 import {BrowserRouter} from 'react-router-dom';
 import Routes from './routes';
-import './Firebase';
+// import './Firebase';
 
 const App = () => {
     return (

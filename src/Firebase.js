@@ -13,8 +13,15 @@ const config = {
 
   firebase.initializeApp(config);
 
-  const firebasedDb = firebase.database()
+  const firebasedDb = firebase.database();
+  const firebaseMatches = firebasedDb.ref('matches');
 
-firebasedDb.ref('matches').once('value').then((snapshot)=>{
-    console.log(snapshot.val())
-})
+// firebasedDb.ref('matches').once('value').then((snapshot)=>{
+//     console.log(snapshot.val())
+// })
+
+export {
+    firebase,
+    firebaseMatches
+
+}
