@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Fade from 'react-reveal/Fade';
 import FormFields from '../../ui/formFields';
+import {validate} from '../../ui/misc';
 
 class Enroll extends Component {
 
@@ -31,15 +32,39 @@ class Enroll extends Component {
         const newElement = {...newFormdata[element.id]}
 
         newElement.value = element.event.target.value;
-        newFormdata[element.id] = newElement
+
+        let validData = validate(newElement)
+        newElement.valid = validData [0];
+        newElement.validationMessage = validData [1];
+
+        newFormdata[element.id] = newElement;
+
+        console.log(newFormdata)  
 
         this.setState ({
+            formError: false,
             formdata: newFormdata
         })
-
     }
 
-    submitForm(){
+    submitForm(event){
+        event.preventDefault();
+
+        let dataToSubmit = {};
+        let formIsValid = true;
+
+        for (let key in this.state.formdata){
+            dataToSubmit[key] = this.state.formdata[key].value;
+            formIsValid = this.state.formdata[key].valid && formIsValid
+        }
+
+        if (formIsValid){
+            console.log (dataToSubmit)
+        } else {
+            this.setState({
+                formError : true
+            })
+        }
 
     }
 
@@ -58,6 +83,14 @@ class Enroll extends Component {
                                 change={(element)=>this.updateForm(element)}
 
                             />
+
+                            { this.state.formError ? 
+                                <div className="error_label"> 
+                                Error. try again
+                                </div>  
+                                :null  
+                            }
+                            <button onClick={(event)=> this.submitForm(event)} >Enrol</button>
                         </div>
                     </form>
                 </div>
